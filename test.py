@@ -4,9 +4,9 @@ def prastevila(n):
             print(i)
 
 def prastevilo(n):
-    for i in range (2, round(n ** (1 / 2) + 1)):
+    for i in range (2, int(n / 2)):
         if n % i == 0:
             return False
-        return True
+    return True
 
 prastevila(200)
