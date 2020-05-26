@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<body>
-
   <h1>Vislice</h1>
 
   <blockquote>
@@ -12,9 +7,7 @@
 
   <img src="img/10.jpg" alt="obesanje">
 
-  <form action="/igra/" method="post">
+  <form action="/nova_igra/" method="post">
     <button type="submit">Nova igra</button>
   </form>
-</body>
-
-</html>
+%rebase base

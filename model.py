@@ -1,4 +1,5 @@
 import random
+import json
 STEVILO_DOVOLJENIH_NAPAK = 9
 PRAVILNA_CRKA = '+'
 PONOVLJENA_CRKA = 'o'
@@ -64,8 +65,6 @@ class Igra:
             else:
                 return NAPACNA_CRKA
 
-with open('besede.txt', 'r', encoding='utf-8') as datoteka_z_besedami:
-    bazen_besed = [vrstica.strip().upper() for vrstica in datoteka_z_besedami]
 
 def nova_igra():
     return Igra(random.choice(bazen_besed))
@@ -73,8 +72,29 @@ def nova_igra():
 
 class Vislice:
 
-    def __init__(self):
+    def __init__(self, datoteka_s_stanjem, datoteka_z_besedami='besede.txt'):
         self.igre = {}
+        self.datoteka_s_stanjem = 'stanje.json'
+        with open('besede.txt', 'r', encoding='utf-8') as f:
+            bazen_besed = f.read().split('/n')
+
+    def nalozi_igre_iz_datoteke(self):
+        with open(self.datoteka_s_stanjem) as f:
+            podatki = json.load(f)
+        self.igre = {}
+        for id_igre, igra in podatki.items():
+            self.igre[int(id_igre)] = (
+                Igra(igra['geslo'], igra['crke']),
+                igra['stanje']
+            ) 
+
+    def zapisi_igre_v_datoteko(self):
+        podatki = {}
+        for id_igre, (igra, stanje) in self.igre.items():
+            podatki[id_igre] = {'geslo': igra.geslo, 'crka' : igra.crka, 'stanje' : stanje}
+        with open(self.datoteka_s_stanjem, 'w') as f:
+            json.dump(podatki, f)
+
 
     def prost_id_igre(self):
         if self.igre.keys():
